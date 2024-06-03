@@ -82,7 +82,7 @@ function App() {
             onClick={handleDelete}
             className="px-2 py-1 bg-red-700 ml-2 text-white rounded-sm w-[4rem] h-8 mt-2"
           >
-            Ca
+            AC
           </button>
         </div>
       </section>
