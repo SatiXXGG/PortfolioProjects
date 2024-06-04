@@ -7,7 +7,7 @@ import { BUTTON_LIST } from "./variables/calculator";
 function App() {
   const [result, setResult] = useState("0");
   const [currentOp, setCurrentOp] = useState("");
-  const [history, setHistory] = useState([]);
+  const [history, setHistory] = useState<string[]>([]);
 
   const handleButtonClick = (character: string) => {
     setResult("0");
@@ -22,7 +22,7 @@ function App() {
         const result: number = evaluate(currentOp);
         const lastValue = history[history.length - 1];
 
-        if (lastValue !== result && lastValue !== currentOp) {
+        if (lastValue !== result.toString() && lastValue !== currentOp) {
           setHistory((oldValue: string[]) => [...oldValue, currentOp]);
         }
 
