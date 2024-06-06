@@ -144,7 +144,7 @@ function App() {
 
       <section
         id="anime-list"
-        className="mb-3 mx-auto mt-12 grid grid-cols-2 md:grid-cols-4 md:w-[50vw] w-[80vw]"
+        className="mb-3  md:px-0 mx-auto mt-12 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 md:w-[50vw] w-[100vw]  bg-red-500"
       >
         {isLoading && <h1>Loading...</h1>}
         {isError && <h1>Error, please try again later</h1>}

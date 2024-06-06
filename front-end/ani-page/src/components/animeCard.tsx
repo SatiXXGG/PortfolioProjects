@@ -10,7 +10,7 @@ export default function AnimeCard({ animeData }: { animeData: anime }) {
       shineStrength={0}
       cursorPointer={false}
     >
-      <div className="outline outline-1 outline-neutral-200 mx-2 my-2 flex flex-col rounded-2xl bg-neutral-100 shadow-md w-44">
+      <div className=" outline outline-1 outline-neutral-200 mx-2 my-2 flex flex-col rounded-2xl bg-neutral-100 shadow-md w-44">
         <img
           className="rounded-t-2xl h-52 w-44"
           src={animeData.images.jpg.image_url}
