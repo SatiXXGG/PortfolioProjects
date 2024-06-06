@@ -40,7 +40,7 @@ function App() {
     useInfiniteQuery({
       queryKey: queryKey,
       queryFn: fetchAnimes,
-      initialPageParam: 1,
+      initialPageParam: 0,
       refetchOnWindowFocus: false,
       refetchInterval: refetchValueTimeMs,
       getNextPageParam: (lastPage) => {
