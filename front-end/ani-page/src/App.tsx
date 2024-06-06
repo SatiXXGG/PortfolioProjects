@@ -4,7 +4,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { anime } from "./types/animeData";
 import AnimeCard from "./components/animeCard";
 import LoadMoreButton from "./components/loadMore";
-import { useEffect, useState } from "react";
+import { ChangeEventHandler, useEffect, useState } from "react";
 import { refetchValueTimeMs } from "./types/globals";
 
 const fetchAnimes = async ({
@@ -67,14 +67,16 @@ function App() {
     refetch();
   };
 
-  const handleCategoryChange = (event) => {
-    const target: HTMLSelectElement = event.target;
-    setType(AnimeGenres[target.value] ?? AnimeGenres.all);
+  const handleCategoryChange: ChangeEventHandler<HTMLSelectElement> = (event) => {
+    const target = event.target as HTMLSelectElement | null;
+    const value = target?.value as keyof typeof AnimeGenres;
+
+    setType(AnimeGenres[value] ?? AnimeGenres.all);
   };
 
-  const handleSearchInputChange = () => {
+  const handleSearchInputChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     if (!isDebounce) {
-      const input = document.getElementById("searchInput");
+      const input = event.target as HTMLInputElement | null;
       const value = input?.value;
       setSearchValue(value ?? "");
       setDebounce(true);
