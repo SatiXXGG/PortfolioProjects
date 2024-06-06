@@ -33,13 +33,14 @@ const fetchAnimes = async ({
 function App() {
   const [searchValue, setSearchValue] = useState("");
   const [isDebounce, setDebounce] = useState(false);
-  const [queryKey, setQueryKey] = useState(["animeData", ""]);
+  const [queryKey, setQueryKey] = useState<string[]>(["animeData", ""]);
   const [type, setType] = useState("all");
 
   const { data, isError, isLoading, fetchNextPage, refetch, hasNextPage } =
     useInfiniteQuery({
       queryKey: queryKey,
       queryFn: fetchAnimes,
+      initialPageParam: 1,
       refetchOnWindowFocus: false,
       refetchInterval: refetchValueTimeMs,
       getNextPageParam: (lastPage) => {
