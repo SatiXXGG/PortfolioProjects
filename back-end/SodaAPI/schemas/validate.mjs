@@ -19,6 +19,10 @@ const sodaSchema = zod.object({
   }),
 });
 
-export function ValidateSoda(sodaItem) {
-  return sodaSchema.safeParse(sodaItem);
+export function ValidateSoda(object) {
+  return sodaSchema.safeParse(object);
+}
+
+export function validatePartialSoda(object) {
+  return sodaSchema.partial().safeParse(object);
 }

@@ -1,6 +1,6 @@
 import express from "express";
 import Sodas from "./responses/sodas.js";
-import { ValidateSoda } from "./schemas/validate.mjs";
+import { ValidateSoda, validatePartialSoda } from "./schemas/validate.mjs";
 
 const app = express();
 const host = 1234;
@@ -93,6 +93,35 @@ app.get("/sodas/search/:name", (req, res) => {
     return;
   }
   res.json(AddResponseData(404, {}));
+});
+
+app.patch("/sodas/:id", (req, res) => {
+  const validation = validatePartialSoda(req.body);
+  const { id } = req.params;
+
+  if (validation.error) {
+    return res
+      .status(400)
+      .json(AddResponseData(400, {}, JSON.parse(validation.error.message)));
+  }
+
+  const index = Sodas.sodas.findIndex((item) => item.id == id);
+
+  if (index > 0) {
+    const movie = Sodas.sodas[index];
+    const newMovie = {
+      ...movie,
+      ...validation,
+    };
+
+    Sodas.sodas[index] = newMovie;
+
+    return res.status(200).json(AddResponseData(200, newMovie));
+  } else {
+    return res
+      .status(404)
+      .json(AddResponseData(404, {}, "We didnt find that index for you :("));
+  }
 });
 
 app.use((req, res) => {
