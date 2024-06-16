@@ -12,6 +12,7 @@ const descriptions = {
   200: "good response",
   201: "created",
   400: "invalid values",
+  204: "no content",
 };
 
 const AddResponseData = (status, data, message) => {
@@ -60,6 +61,7 @@ app.post("/sodas", (req, res, next) => {
 });
 
 app.get("/sodas", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
   const { lowerto } = req.query;
 
   if (lowerto) {
@@ -79,7 +81,8 @@ app.get("/sodas", (req, res) => {
   res.send(AddResponseData(200, Sodas));
 });
 
-app.get("/sodas/search/:name", (req, res) => {
+app.get("/sodas/:name", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
   const { name } = req.params;
   const newJson = Sodas.sodas.filter((item) => {
     if (item.name.toLowerCase().includes(name.toLowerCase()) === true) {
@@ -121,6 +124,16 @@ app.patch("/sodas/:id", (req, res) => {
     return res
       .status(404)
       .json(AddResponseData(404, {}, "We didnt find that index for you :("));
+  }
+});
+
+app.delete("/sodas/:id", (req, res) => {
+  const { id } = req.params;
+  const movieIndex = Sodas.sodas.findIndex((item) => item.id === id);
+
+  if (movieIndex > 0) {
+    Sodas.sodas.splice(movieIndex, 1);
+    res.status(204).json(AddResponseData(204, {}, "Deleted"));
   }
 });
 
