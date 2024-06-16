@@ -1,9 +1,11 @@
 import express from "express";
 import Sodas from "./responses/sodas.js";
 import { ValidateSoda, validatePartialSoda } from "./schemas/validate.mjs";
+import { configDotenv } from "dotenv";
 
+configDotenv();
 const app = express();
-const host = 1234;
+const host = process.env.PORT ?? 1234;
 
 app.use(express.json());
 
