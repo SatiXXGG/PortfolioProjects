@@ -1,6 +1,6 @@
 import express from "express";
-import os from "node:os";
 import Sodas from "./responses/sodas.js";
+import { ValidateSoda } from "./schemas/validate.mjs";
 
 const app = express();
 const host = 1234;
@@ -11,10 +11,12 @@ const descriptions = {
   404: "not found",
   200: "good response",
   201: "created",
+  400: "invalid values",
 };
 
-const AddResponseData = (status, data) => {
+const AddResponseData = (status, data, message) => {
   return {
+    message: message ?? "N/A",
     description: descriptions[status],
     status: status,
     data: data,
@@ -39,12 +41,17 @@ const AddResponseData = (status, data) => {
 // })
 
 app.post("/sodas", (req, res, next) => {
-  const { name, price, description, id } = req.body;
+  const validation = ValidateSoda(req.body);
+
+  if (validation.error) {
+    return res
+      .status(400)
+      .json(AddResponseData(400, {}, JSON.parse(validation.error.message)));
+  }
+
   const newSoda = {
     id: crypto.randomUUID(),
-    name,
-    price,
-    description: description ?? "N/A",
+    ...validation.data,
   };
 
   Sodas.sodas.push(newSoda); //this isnt CRUD, ill add a DB later
