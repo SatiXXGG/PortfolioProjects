@@ -1,11 +1,16 @@
 import express from "express";
-import Sodas from "./responses/sodas.js";
+
 import { ValidateSoda, validatePartialSoda } from "./schemas/validate.mjs";
 import { configDotenv } from "dotenv";
-
+import { createRequire } from "node:module";
 configDotenv();
+
 const app = express();
+// eslint-disable-next-line no-undef
 const host = process.env.PORT ?? 1234;
+
+const createdImport = createRequire(import.meta.url);
+const Sodas = createdImport("./responses/sodas.json");
 
 app.use(express.json());
 
@@ -36,7 +41,7 @@ const AddResponseData = (status, data, message) => {
 //         data += chunk.toString()
 //     })
 
-//     req.on('end', () => {
+// //     req.on('end', () => {
 //         data = JSON.parse(data)
 //         req.body = data
 //         next()
@@ -47,7 +52,7 @@ app.post("/", (req, res) => {
   res.json(AddResponseData(204, {}, "please use /sodas"));
 });
 
-app.post("/sodas", (req, res, next) => {
+app.post("/sodas", (req, res) => {
   const validation = ValidateSoda(req.body);
 
   if (validation.error) {
