@@ -43,6 +43,10 @@ const AddResponseData = (status, data, message) => {
 //     })
 // })
 
+app.post("/", (req, res) => {
+  res.json(AddResponseData(204, {}, "please use /sodas"));
+});
+
 app.post("/sodas", (req, res, next) => {
   const validation = ValidateSoda(req.body);
 
