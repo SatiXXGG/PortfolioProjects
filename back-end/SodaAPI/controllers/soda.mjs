@@ -1,4 +1,4 @@
-import { SodaModel } from "../models/soda.mjs";
+import { SodaModel } from "../models/database/mysql.mjs";
 import { ValidateSoda, validatePartialSoda } from "../schemas/validate.mjs";
 import AddResponseData from "../utils/AddResponseData.mjs";
 
@@ -13,27 +13,31 @@ export class SodaController {
 
   static async post(req, res) {
     const validation = ValidateSoda(req.body);
-    console.log(req.body);
+
     if (validation.error) {
       return res
         .status(400)
         .json(AddResponseData(400, {}, JSON.parse(validation.error.message)));
     }
     const soda = await SodaModel.create({ validation });
-    res.json(AddResponseData(201, soda));
+    if (soda) {
+      res.status(201).json(AddResponseData(201, soda));
+    } else {
+      res.status(500).json(AddResponseData(500, {}, "Server error"));
+    }
   }
 
-  static async getByName(req, res) {
+  static async getById(req, res) {
     res.header("Access-Control-Allow-Origin", "*");
-    const { name } = req.params;
-    const sodas = await SodaModel.getByName({ name });
+    const { id } = req.params;
+    const soda = await SodaModel.getById({ id });
 
-    if (sodas.length > 0) {
-      res.json(AddResponseData(200, sodas));
+    if (soda) {
+      res.json(AddResponseData(200, soda));
       return;
     }
 
-    res.json(AddResponseData(404, {}));
+    res.status(404).json(AddResponseData(404, {}));
   }
 
   static async patch(req, res) {
@@ -59,7 +63,7 @@ export class SodaController {
 
   static async delete(req, res) {
     const { id } = req.params;
-    const deleted = await SodaModel.delete(id);
+    const deleted = await SodaModel.delete({ id });
 
     if (deleted) {
       return res.status(204).json(AddResponseData(204, {}, "Deleted"));

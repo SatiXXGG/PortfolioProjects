@@ -4,7 +4,7 @@ import { SodaController } from "../controllers/soda.mjs";
 export const sodasRouter = Router();
 //non-modify-request
 sodasRouter.get("/", SodaController.getAll);
-sodasRouter.get("/:name", SodaController.getByName);
+sodasRouter.get("/:id", SodaController.getById);
 //modify request
 sodasRouter.post("/", SodaController.post);
 sodasRouter.patch("/:id", SodaController.patch);
