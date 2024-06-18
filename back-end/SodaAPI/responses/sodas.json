@@ -1,5 +1,5 @@
-{
-  "sodas": [
+[
+
     {
       "name": "Coca-Cola",
       "description": "A carbonated cola beverage known for its sweet and refreshing taste. It is one of the most popular brands worldwide.",
@@ -60,5 +60,5 @@
       "price": 1.25,
       "id": "10"
     }
-  ]
-}
+  
+]
