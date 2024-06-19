@@ -2,12 +2,29 @@ import { Router } from "express";
 import { SodaController } from "../controllers/soda.mjs";
 
 export const sodasRouter = Router();
-//non-modify-request
-sodasRouter.get("/", SodaController.getAll);
-sodasRouter.get("/:id", SodaController.getById);
-//modify request
-sodasRouter.post("/", SodaController.post);
-sodasRouter.patch("/:id", SodaController.patch);
-sodasRouter.delete("/:id", SodaController.delete);
-//other
-sodasRouter.use("/", SodaController.noPage);
+
+export function createSodaRouter({ sodaModel }) {
+  const controller = new SodaController({ sodaModel: sodaModel });
+
+  //non-modify-request
+  sodasRouter.get("/", controller.getAll);
+  sodasRouter.get("/:id", controller.getById);
+  //modify request
+  sodasRouter.post("/", controller.post);
+  sodasRouter.patch("/:id", controller.patch);
+  sodasRouter.delete("/:id", controller.delete);
+  //other
+  sodasRouter.use("/", controller.noPage);
+
+  //non-modify-request
+  sodasRouter.get("/", controller.getAll);
+  sodasRouter.get("/:id", controller.getById);
+  //modify request
+  sodasRouter.post("/", controller.post);
+  sodasRouter.patch("/:id", controller.patch);
+  sodasRouter.delete("/:id", controller.delete);
+  //other
+  sodasRouter.use("/", controller.noPage);
+
+  return sodasRouter;
+}

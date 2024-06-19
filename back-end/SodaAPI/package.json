@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.mjs"
+    "start:db": "node app-with-db.mjs",
+    "start:local": "node app-local.mjs"
   },
   "keywords": [],
   "author": "",

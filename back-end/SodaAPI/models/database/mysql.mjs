@@ -12,7 +12,7 @@ const config = {
   database: "sodadb",
 };
 
-const connection = await mysql.createConnection(config);
+const connection = await mysql.createConnection(process.env.DB_URL);
 
 export class SodaModel {
   static async getAll({ lowerto } = {}) {
